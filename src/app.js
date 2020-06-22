@@ -21,8 +21,21 @@ app.post('/repositories', (request, response) => {
   return response.json(repository);
 });
 
-app.put("/repositories/:id", (request, response) => {
-  // TODO
+app.put('/repositories/:id', (request, response) => {
+  const { id } = request.params;
+  const { title, url, techs } = request.body;
+  const repoIndex = repositories.findIndex(
+    (repository) => repository.id === id
+  );
+  if (repoIndex < 0)
+    return response.status(400).json({ error: 'Invalid Repository ID.' });
+  repositories[repoIndex] = {
+    ...repositories[repoIndex],
+    title,
+    url,
+    techs,
+  };
+  return response.json(repositories[repoIndex]);
 });
 
 app.delete("/repositories/:id", (request, response) => {
