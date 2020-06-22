@@ -38,8 +38,14 @@ app.put('/repositories/:id', (request, response) => {
   return response.json(repositories[repoIndex]);
 });
 
-app.delete("/repositories/:id", (request, response) => {
-  // TODO
+app.delete('/repositories/:id', (request, response) => {
+  const { id } = request.params;
+  const repoIndex = repositories.findIndex(
+    (repository) => repository.id === id
+  );
+  if (repoIndex < 0) return response.status(400).send();
+  repositories.splice(repoIndex, 1);
+  return response.status(204).send();
 });
 
 app.post("/repositories/:id/like", (request, response) => {
